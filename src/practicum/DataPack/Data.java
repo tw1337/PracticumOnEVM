@@ -229,7 +229,7 @@ public class Data {
     }
 
     public Data getPartOfData(String s) {
-        
+       return null;
     }
 
 }
