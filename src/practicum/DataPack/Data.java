@@ -228,8 +228,29 @@ public class Data {
         return sb;
     }
 
-    public Data getPartOfData(String s) {
-       return null;
+        public Data getPartOfData(String s) {
+        Node temp = this.head;
+        int num = 0;
+        String str = "";
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '[' || s.charAt(i) == ']') {
+                i++;
+            } else {
+                while (Character.isDigit(s.charAt(i))) {
+                    str = str + s.charAt(i);
+                }
+                num = Integer.parseInt(str);
+                try {
+                    temp = temp.childs.get(num);
+                }
+                catch (Exception e) {
+
+                }
+            }
+        }
+        //get rightpart from node 
+        //get new data
+        return null;
     }
 
 }
