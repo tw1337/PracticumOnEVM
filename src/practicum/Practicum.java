@@ -91,7 +91,7 @@ public class Practicum {
                     //присвоение индексации
                     StringBuilder sb = new StringBuilder();
                     int q = 0;
-                    if (ListOfVariables.exists(strings[0]) == -1) {
+                    if (ListOfVariables.exists(strings[0].substring(0,strings[0].length())) == -1) {
                      //   ListOfVariables.add(new Variable(data, strings[0].substring(0, strings[0].length() - 1)));
                      while(Character.isLetter(strings[1].charAt(q)) && q < strings[1].length()){
                          sb.append(strings[1].charAt(q));
@@ -107,6 +107,15 @@ public class Practicum {
                     }
                 } else {
                     //d:=a
+                    //strings[0] = name + ":"!!!!!!!!!
+                    if(ListOfVariables.exists(strings[0].substring(0,strings[0].length())) == -1){
+                        ListOfVariables.variables.add(new Variable(new Data (
+                        ListOfVariables.getVariable(strings[1]).getData().getRightPart()
+                        ),strings[0].substring(0,strings[0].length())));
+                    }
+                    else{
+                        
+                    }
                 }
             } //тут два вида индексации a[1]:=[1] and a[1]:=b[1]; !!!!d[1] = d
             else if (strings[0].contains(":") && strings[0].contains("[")) {
@@ -120,6 +129,13 @@ public class Practicum {
                     //тупо присвоение
                 } else {
                     //две индексации
+                    if(!strings[1].contains("[")){
+                        //
+                        //d[1]=double;
+                    }
+                    else{
+                        //a[1] = b[1];
+                    }
                 }
             } //вывод на экран
             else if (!strings[0].contains(":") && !strings[0].contains("[")) {
