@@ -228,29 +228,39 @@ public class Data {
         return sb;
     }
 
-        public Data getPartOfData(String s) {
+    public Data getPartOfData(String s) {
         Node temp = this.head;
         int num = 0;
         String str = "";
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '[' || s.charAt(i) == ']') {
-                i++;
+                //i++;
+                continue;
             } else {
                 while (Character.isDigit(s.charAt(i))) {
                     str = str + s.charAt(i);
+                    i++;
                 }
                 num = Integer.parseInt(str);
+                str="";
                 try {
                     temp = temp.childs.get(num);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
         //get rightpart from node 
+        StringBuilder sb = new StringBuilder();
+        getRP2(temp, sb);
+        sb.deleteCharAt(sb.length()-1);
+        if(Integer.toString(num).length() == sb.length()){
+            sb.insert(0,"[");
+            sb.append("]");
+        }
+        return new Data(sb.toString());
         //get new data
-        return null;
     }
+    
 
 }
