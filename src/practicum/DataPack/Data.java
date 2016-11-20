@@ -261,6 +261,39 @@ public class Data {
         return new Data(sb.toString());
         //get new data
     }
-    
+    public Data setPartOfData(Data d,String s){
+        Node temp = this.head;
+        Node newNode = d.head;
+        int num = 0;
+        String str = "";
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '[' || s.charAt(i) == ']') {
+                //i++;
+                continue;
+            } else {
+                while (Character.isDigit(s.charAt(i))) {
+                    str = str + s.charAt(i);
+                    i++;
+                }
+                num = Integer.parseInt(str);
+                str="";
+                try {
+                    temp = temp.childs.get(num);
+                } catch (Exception e) {
+                }
+                
+            }
+        }
+        
+        Node help = temp.prev;
+        help.childs.remove(num);
+        help.childs.add(num, newNode);
+        temp = newNode;
+        temp.prev = help;
+        StringBuilder sb = new StringBuilder();
+        getRP2(head, sb);
+        sb.deleteCharAt(sb.length()-1);
+        return new Data(getRightPart());
+    }
 
 }
