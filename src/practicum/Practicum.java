@@ -105,8 +105,7 @@ public class Practicum {
                     }
                 } else //d:=a
                 //strings[0] = name + ":"!!!!!!!!!
-                {
-                    if (ListOfVariables.exists(strings[0].substring(0, strings[0].length())) == -1) {
+                 if (ListOfVariables.exists(strings[0].substring(0, strings[0].length())) == -1) {
                         ListOfVariables.variables.add(new Variable(new Data(
                                 ListOfVariables.getVariable(strings[1]).getData().getRightPart()
                         ), strings[0].substring(0, strings[0].length())));
@@ -114,7 +113,6 @@ public class Practicum {
                         ListOfVariables.variables.get(ListOfVariables.exists(strings[0].substring(0, strings[0].length() - 1))).setData(
                                 new Data(ListOfVariables.getVariable(strings[1]).getData().getRightPart()));
                     }
-                }
             } //тут два вида индексации a[1]:=[1] and a[1]:=b[1]; !!!!d[1] = d
             else if (strings[0].contains(":") && strings[0].contains("[")) {
                 int k = 0;
@@ -133,8 +131,7 @@ public class Practicum {
                     //    ListOfVariables.getVariable(var.substring(0, curr)).getData().setPartOfData(new Data(strings[1]),var.substring(curr,var.length()-1));
                     ListOfVariables.getVariable(var.substring(0, curr)).setData(ListOfVariables.getVariable(var.substring(0, curr)).getData().setPartOfData(new Data(strings[1]), var.substring(curr, var.length() - 1)));
                 } else //две индексации
-                {
-                    if (!strings[1].contains("[")) {
+                 if (!strings[1].contains("[")) {
                         //
                         //d[1]=double;
                         String var = strings[0];
@@ -147,9 +144,8 @@ public class Practicum {
                                 var.substring(curr, var.length() - 1)));
                     } else {
                         //a[1] = b[1];
-                        
+
                     }
-                }
             } //вывод на экран
             else if (!strings[0].contains(":") && !strings[0].contains("[")) {
                 try {
@@ -160,7 +156,18 @@ public class Practicum {
 
             } //вывести часть
             else if (!strings[0].contains(":") && strings[0].contains("[")) {
-                
+                //System.out.print(ListOfVariables.getVariable(s));
+                String var = strings[0];
+                int curr = 0;
+                while (Character.isLetter(var.charAt(curr))) {
+                    curr++;
+                }
+                try{
+                System.out.append(ListOfVariables.getVariable(var.substring(0, curr)).getData().getPartString(var.substring(curr, var.length())));
+            }
+                catch(Exception e){
+                    System.out.println("Не найдена переменная");
+                }
             }
         }
     }
