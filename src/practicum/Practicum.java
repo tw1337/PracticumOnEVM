@@ -5,9 +5,14 @@
  */
 package practicum;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.EmptyStackException;
 import practicum.exceptions.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import practicum.InputLine.Expression;
 import practicum.DataPack.*;
 import practicum.InputLine.*;
@@ -143,8 +148,22 @@ public class Practicum {
                                 ListOfVariables.getVariable(strings[1]).getData(),
                                 var.substring(curr, var.length() - 1)));
                     } else {
-                        //a[1] = b[1];
-
+                        //a[1]: = b[1];
+                        String str = strings[0].substring(0,strings[0].length()-1);
+                        int curr = 0;
+                        while (Character.isLetter(str.charAt(curr))) {
+                            curr++;
+                        }
+                        String rp = strings[1];
+                        int curr2 = 0;
+                        while (Character.isLetter(rp.charAt(curr2))) {
+                            curr2++;
+                        }
+                        
+                        ListOfVariables.getVariable(str.substring(0, curr)).setData(ListOfVariables.getVariable(str.substring(0, curr)).getData().setPartOfData(
+                                ListOfVariables.getVariable(rp.substring(0, curr2)).getData().getPartOfData(rp.substring(curr2, rp.length())), 
+                                str.substring(curr, str.length())));
+                        
                     }
             } //вывод на экран
             else if (!strings[0].contains(":") && !strings[0].contains("[")) {
