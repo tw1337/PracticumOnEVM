@@ -32,6 +32,9 @@ public class Practicum {
         String[] strings = null;
         while (true) {
             s = sc.nextLine();
+            if(s.length() == 0){
+                continue;
+            }
             s = s.replace(" ", "");
             strings = s.split("=");
             if (strings.length == 1 && strings[0].contains(":")) {
@@ -67,22 +70,55 @@ public class Practicum {
             if (strings[0].contains(":") && !strings[0].contains("[")) {
                 int k = 0;
                 for (int i = 0; i < strings[1].length(); i++) {
-                    if (Character.isLetter(strings[1].charAt(i))) {
+                    if (Character.isLetter(strings[1].charAt(i)) || strings[1].charAt(i) == '+' || strings[1].charAt(i) == '-' || strings[1].charAt(i) == '*') {
                         k++;
                     }
                 }
                 if (k == 0) {
                     //присвоение чистое
-                    if (ListOfVariables.exists(strings[0]) == -1) {
+                    try{
+                    if (ListOfVariables.exists(strings[0].substring(0,strings[0].length()-1)) == -1) {
                         //new variable
                         ListOfVariables.variables.add(new Variable(new Data(strings[1]), strings[0].substring(0, strings[0].length() - 1)));
                     } else {
                         // change exists
                         ListOfVariables.variables.get(ListOfVariables.exists(strings[0].substring(0, strings[0].length() - 1))).setData(new Data(strings[1]));
                     }
+                    }
+                    catch(Exception e){
+                        System.out.println("Произошла ошибка");
+                    }
                 } else if (strings[1].contains("+") || strings[1].contains("-") || strings[1].contains("*")) {
                     //выражение
-                    Expression exp = new Expression(strings[1]);
+                    
+                    String[] rstr = null;
+                    rstr = strings[1].split("[\\p{Punct}&&[^\\[\\]\\(\\)]]");
+                    for(int i = 0;i<rstr.length;i++){
+                        if(rstr[i].contains("[")){
+                          if(rstr[i].charAt(rstr[i].length()-1) != ')'){  
+                          rstr[i] = rstr[i] + '&';  
+                          }
+                          else{
+                              rstr[i] = rstr[i].substring(0, rstr[i].length()-1);
+                              rstr[i] = rstr[i] + '&';  
+                              rstr[i] = rstr[i] + ')';  
+                          }
+                        }
+                    }
+                    int j = 0;
+                    for(int i = 0;i<strings[1].length();i++){
+                        
+                        if(strings[1].charAt(i) == '+' ||strings[1].charAt(i) == '-' || strings[1].charAt(i) == '*'){
+                            rstr[j] = rstr[j] + strings[1].charAt(i);
+                            j++;
+                        }
+                    }
+                    StringBuilder stringb = new StringBuilder();
+                    for(int i = 0;i<rstr.length;i++){
+                        stringb.append(rstr[i]);
+                    }
+                    String res = stringb.toString();
+                    Expression exp = new Expression(res);
                     try {
                         if (ListOfVariables.exists(strings[0]) == -1) {
                             ListOfVariables.variables.add(new Variable(exp.execute(), strings[0].substring(0, strings[0].length() - 1)));
@@ -168,7 +204,7 @@ public class Practicum {
             } //вывод на экран
             else if (!strings[0].contains(":") && !strings[0].contains("[")) {
                 try {
-                    System.out.print(ListOfVariables.getVariable(strings[0]).getData().getRightPart());
+                    System.out.println(ListOfVariables.getVariable(strings[0]).getData().getRightPart());
                 } catch (NullVariableException e) {
                     System.out.println("Не найдена переменная");
                 }
@@ -182,7 +218,7 @@ public class Practicum {
                     curr++;
                 }
                 try{
-                System.out.append(ListOfVariables.getVariable(var.substring(0, curr)).getData().getPartString(var.substring(curr, var.length())));
+                System.out.println(ListOfVariables.getVariable(var.substring(0, curr)).getData().getPartString(var.substring(curr, var.length())));
             }
                 catch(Exception e){
                     System.out.println("Не найдена переменная");
