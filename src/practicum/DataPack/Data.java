@@ -8,6 +8,7 @@ package practicum.DataPack;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import practicum.exceptions.NullVariableException;
 
 /**
  *
@@ -109,6 +110,9 @@ public class Data {
                 return bb;
             }
             for (int i = 0; i < a.childs.size(); i++) {
+                if(a.childs.size() != b.childs.size()){
+                    return false;
+                }
                 dimens(a.childs.get(i), b.childs.get(i));
             }
         } catch (Exception e) {
@@ -126,6 +130,9 @@ public class Data {
     public void plus(Data b) {
         Node a = this.head;
         Node bNode = b.head;
+        if(!dimensions(b)){
+         throw new NullVariableException();
+        }
         plusplus(a, bNode);
     }
 
@@ -142,6 +149,9 @@ public class Data {
     public void minus(Data b) {
         Node a = this.head;
         Node bNode = b.head;
+        if(!dimensions(b)){
+         throw new NullVariableException();
+        }
         minusminus(a, bNode);
     }
 
