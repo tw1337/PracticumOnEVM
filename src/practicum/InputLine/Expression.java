@@ -124,9 +124,39 @@ public class Expression {
         Stack<Data> operands = new Stack<>();
         while (i < s.length()) {
             if (Character.isLetter(s.charAt(i))) {
-                operands.add(ListOfVariables.getVariable(Character.toString(s.charAt(i))).getData());
+                StringBuilder sb = new StringBuilder();
+                while (Character.isLetter(s.charAt(i))) {
+                    sb.append(s.charAt(i));
+                    i++;
+                }
+                if (s.charAt(i) != '[') {
+                    operands.add(ListOfVariables.getVariable(sb.toString()).getData());
+                    i++;
+                    continue;
+                } else {
+                    StringBuilder strb = new StringBuilder();
+                    while (s.charAt(i) != '&') {
+                        strb.append(s.charAt(i));
+                        i++;
+                    }
+                    operands.add(ListOfVariables.getVariable(sb.toString()).getData().getPartOfData(strb.toString()));
+                    continue;
+                }
+                // operands.add(ListOfVariables.getVariable(Character.toString(s.charAt(i))).getData());
+                // i++;
+                // continue;
+            }
+            if (s.charAt(i) == '[') {
+                StringBuilder strb = new StringBuilder();
+                while (s.charAt(i) != '&') {
+                    strb.append(s.charAt(i));
+                    i++;
+                }
+                operands.add(new Data(strb.toString()));
                 i++;
-                continue;
+            }
+            if (s.charAt(i) == '&'){
+                i++;
             }
             if (s.charAt(i) == '+' || s.charAt(i) == '-' || s.charAt(i) == '*') {
                 Data d1 = operands.pop();
