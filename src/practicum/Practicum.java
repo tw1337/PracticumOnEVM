@@ -94,7 +94,7 @@ public class Practicum {
                     String[] rstr = null;
                     rstr = strings[1].split("[\\p{Punct}&&[^\\[\\]\\(\\)]]");
                     for(int i = 0;i<rstr.length;i++){
-                        if(rstr[i].contains("[")){
+                      //  if(rstr[i].contains("[")){
                           if(rstr[i].charAt(rstr[i].length()-1) != ')'){  
                           rstr[i] = rstr[i] + '&';  
                           }
@@ -103,7 +103,7 @@ public class Practicum {
                               rstr[i] = rstr[i] + '&';  
                               rstr[i] = rstr[i] + ')';  
                           }
-                        }
+                        //}
                     }
                     int j = 0;
                     for(int i = 0;i<strings[1].length();i++){
@@ -120,7 +120,7 @@ public class Practicum {
                     String res = stringb.toString();
                     Expression exp = new Expression(res);
                     try {
-                        if (ListOfVariables.exists(strings[0]) == -1) {
+                        if (ListOfVariables.exists(strings[0].substring(0, strings[0].length() - 1)) == -1) {
                             ListOfVariables.variables.add(new Variable(exp.execute(), strings[0].substring(0, strings[0].length() - 1)));
                         } else {
                             ListOfVariables.variables.get(ListOfVariables.exists(strings[0].substring(0, strings[0].length() - 1))).setData(exp.execute());
@@ -132,12 +132,16 @@ public class Practicum {
                     //присвоение индексации
                     StringBuilder sb = new StringBuilder();
                     int q = 0;
-                    if (ListOfVariables.exists(strings[0].substring(0, strings[0].length())) == -1) {
-                        //   ListOfVariables.add(new Variable(data, strings[0].substring(0, strings[0].length() - 1)));
-                        while (Character.isLetter(strings[1].charAt(q)) && q < strings[1].length()) {
+                    while (Character.isLetter(strings[1].charAt(q)) && q < strings[1].length()) {
                             sb.append(strings[1].charAt(q));
                             q++;
                         }
+                    if (ListOfVariables.exists(strings[0].substring(0, strings[0].length()-1)) == -1) {
+                        //   ListOfVariables.add(new Variable(data, strings[0].substring(0, strings[0].length() - 1)));
+                       // while (Character.isLetter(strings[1].charAt(q)) && q < strings[1].length()) {
+                         //   sb.append(strings[1].charAt(q));
+                        //    q++;
+                      //  }
                         ListOfVariables.variables.add(new Variable(ListOfVariables.getVariable(sb.toString()).getData().getPartOfData(strings[1].substring(q, strings[1].length())), strings[0].substring(0, strings[0].length() - 1)));
                     } else {
                         ListOfVariables.variables.get(ListOfVariables.exists(strings[0].substring(0, strings[0].length() - 1))).setData(
@@ -175,14 +179,22 @@ public class Practicum {
                  if (!strings[1].contains("[")) {
                         //
                         //d[1]=double;
+                        //доделать a[1] = a - не робит
                         String var = strings[0];
                         int curr = 0;
                         while (Character.isLetter(var.charAt(curr))) {
                             curr++;
                         }
+                        if(var.substring(0, curr).equals(strings[1])){
+                           ListOfVariables.getVariable(var.substring(0, curr)).setData(ListOfVariables.getVariable(var.substring(0, curr)).getData().setPartOfData(
+                                new Data(ListOfVariables.getVariable(strings[1]).getData().getRightPart()),
+                                var.substring(curr, var.length() - 1))); 
+                        }
+                        else{
                         ListOfVariables.getVariable(var.substring(0, curr)).setData(ListOfVariables.getVariable(var.substring(0, curr)).getData().setPartOfData(
                                 ListOfVariables.getVariable(strings[1]).getData(),
                                 var.substring(curr, var.length() - 1)));
+                        }
                     } else {
                         //a[1]: = b[1];
                         String str = strings[0].substring(0,strings[0].length()-1);
