@@ -23,7 +23,7 @@ public class DataOperations {
 
     public static Data minusData(Data a, Data b) {
         Data temp = a.clone();
-        temp.plus(b);
+        temp.minus(b);
         return temp;
     }
 
