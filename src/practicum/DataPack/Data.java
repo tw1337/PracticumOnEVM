@@ -157,11 +157,12 @@ public class Data {
 
     private void minusminus(Node a, Node b) {
         if (a.childs == null) {
-            a.value = a.value - b.value;
+        //    a.value = a.value - b.value;
+        a.value = b.value - a.value;
             return;
         }
         for (int i = 0; i < a.childs.size(); i++) {
-            plusplus(a.childs.get(i), b.childs.get(i));
+            minusminus(a.childs.get(i), b.childs.get(i));
         }
     }
 
